@@ -6,11 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.kenvin.pagebanner.MainActivity">
 
-    <com.example.kenvin.pagebanner.ImageBannerViewGroup
-        android:id="@+id/bannerGroup"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
+    <!--<com.example.kenvin.pagebanner.ImageBannerViewGroup-->
+        <!--android:id="@+id/bannerGroup"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp">-->
 
-    </com.example.kenvin.pagebanner.ImageBannerViewGroup>
+    <!--</com.example.kenvin.pagebanner.ImageBannerViewGroup>-->
+
+    <com.example.kenvin.pagebanner.ImageBannerFragemntLayout
+        android:id="@+id/imageBannerFragemntLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.example.kenvin.pagebanner.ImageBannerFragemntLayout>
 
 </android.support.constraint.ConstraintLayout>
