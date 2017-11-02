@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements ImageBannerViewGr
             R.drawable.banner5,
             R.drawable.banner6,
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

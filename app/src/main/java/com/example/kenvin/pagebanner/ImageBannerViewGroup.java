@@ -4,12 +4,15 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Kenvin on 2017/11/1.
@@ -42,6 +45,8 @@ public class ImageBannerViewGroup extends ViewGroup {
 
     public ImageBannerListener imageBannerListener;
 
+    public ImageBannerSelectedListener imageBannerSelectedListener;
+
 
     public ImageBannerListener getImageBannerListener() {
         return imageBannerListener;
@@ -49,6 +54,19 @@ public class ImageBannerViewGroup extends ViewGroup {
 
     public void setImageBannerListener(ImageBannerListener imageBannerListener) {
         this.imageBannerListener = imageBannerListener;
+    }
+
+
+    public interface ImageBannerSelectedListener{
+        public  void selectedImage(int index);
+    }
+
+    public ImageBannerSelectedListener getImageBannerSelectedListener() {
+        return imageBannerSelectedListener;
+    }
+
+    public void setImageBannerSelectedListener(ImageBannerSelectedListener imageBannerSelectedListener) {
+        this.imageBannerSelectedListener = imageBannerSelectedListener;
     }
 
     private Handler autoHandler = new Handler() {
@@ -60,6 +78,7 @@ public class ImageBannerViewGroup extends ViewGroup {
                         index = 0;
                     }
                     scrollTo(childSizeWidth*index,0);
+                    imageBannerSelectedListener.selectedImage(index);
                     break;
             }
         }
@@ -138,10 +157,13 @@ public class ImageBannerViewGroup extends ViewGroup {
             setMeasuredDimension(0,0);
         }else {
 
+            //测量子视图的宽度和高度
             measureChildren(widthMeasureSpec,heightMeasureSpec);
 
             View view = getChildAt(0);
             childSizeWidth = view.getMeasuredWidth();
+
+            // 根据子视图的宽度和高度算出ViewGroup的宽度和高度
             int width  = view.getMeasuredWidth()*childrenSize;
             int height = view.getMeasuredHeight();
 
@@ -159,6 +181,7 @@ public class ImageBannerViewGroup extends ViewGroup {
      */
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
         if (changed){
 
             int leftMargin = 0;
@@ -179,7 +202,6 @@ public class ImageBannerViewGroup extends ViewGroup {
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-
         return true;
     }
 
@@ -196,14 +218,13 @@ public class ImageBannerViewGroup extends ViewGroup {
                 x = (int) event.getX();
             }
             break;
-            case MotionEvent.ACTION_MOVE:{
+            case MotionEvent.ACTION_MOVE:
                 int moveX =  (int) event.getX();
                 int distance = moveX - x;
                 scrollBy(-distance,0);
                 x = moveX;
                 isClickOperation = false;
-            }
-            break;
+                break;
             case MotionEvent.ACTION_UP:{
 
                 if (isClickOperation){
@@ -211,6 +232,7 @@ public class ImageBannerViewGroup extends ViewGroup {
                 }else {
                     int scrollX = getScrollX();
                     index = (scrollX+ childSizeWidth/2)/childSizeWidth;
+
                     if (index < 0){ //已经滑动到第一张
                         index = 0 ;
                     }else if (index > childrenSize -1){
@@ -222,6 +244,7 @@ public class ImageBannerViewGroup extends ViewGroup {
                     int dx  = index*childSizeWidth - scrollX;
                     scroller.startScroll(scrollX,0,dx,0);
                     postInvalidate();
+                    imageBannerSelectedListener.selectedImage(index);
                 }
                 startAutoCycleImage();
             }
