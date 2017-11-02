@@ -37,6 +37,32 @@ public class ImageBannerViewGroup extends ViewGroup {
 
     private TimerTask timerTask;
 
+    private Handler autoHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    if (++index>= childrenSize){
+                        index = 0;
+                    }
+                    scrollTo(childSizeWidth*index,0);
+                    imageBannerSelectedListener.selectedImage(index);
+                    break;
+            }
+        }
+    };
+
+
+    private void startAutoCycleImage(){
+        isAuto = true;
+
+    }
+
+    private void stopAutoCycleImage(){
+        isAuto = false;
+
+    }
+
     private boolean isClickOperation;
 
     public interface ImageBannerListener{
@@ -67,32 +93,6 @@ public class ImageBannerViewGroup extends ViewGroup {
 
     public void setImageBannerSelectedListener(ImageBannerSelectedListener imageBannerSelectedListener) {
         this.imageBannerSelectedListener = imageBannerSelectedListener;
-    }
-
-    private Handler autoHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 0:
-                    if (++index>= childrenSize){
-                        index = 0;
-                    }
-                    scrollTo(childSizeWidth*index,0);
-                    imageBannerSelectedListener.selectedImage(index);
-                    break;
-            }
-        }
-    };
-
-
-    private void startAutoCycleImage(){
-        isAuto = true;
-
-    }
-
-    private void stopAutoCycleImage(){
-        isAuto = false;
-
     }
 
     public ImageBannerViewGroup(Context context) {

@@ -32,40 +32,22 @@ public class ImageBannerFragemntLayout extends FrameLayout implements ImageBanne
 
     private LinearLayout linearLayout;
 
-
     public ImageBannerFragemntLayout(@NonNull Context context) {
         super(context);
         initImageBannerViewGroup();
         initDotLinnerLayout();
     }
 
-    public void addBitmaps(List<Bitmap> list){
-        for (int i = 0; i < list.size(); i++) {
-            Bitmap bitmap = list.get(i);
-            addBitmapToViewGroup(bitmap);
-            addDotToLinerLayout();
-        }
+    public ImageBannerFragemntLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initImageBannerViewGroup();
+        initDotLinnerLayout();
     }
 
-
-
-    private void  addBitmapToViewGroup(Bitmap bitmap){
-
-        ImageView imageView = new ImageView(getContext());
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,400));
-        imageView.setImageBitmap(bitmap);
-        imageBannerViewGroup.addView(imageView);
-    }
-
-    private void addDotToLinerLayout(){
-
-        ImageView imageView = new ImageView(getContext());
-        LinearLayout.LayoutParams linerLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        imageView.setLayoutParams(linerLayout);
-        linerLayout.setMargins(5,5,5,5);
-        imageView.setImageResource(R.drawable.dot_noraml);
-        linearLayout.addView(imageView);
+    public ImageBannerFragemntLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initImageBannerViewGroup();
+        initDotLinnerLayout();
     }
 
     //初始化轮播功能核心类
@@ -99,22 +81,34 @@ public class ImageBannerFragemntLayout extends FrameLayout implements ImageBanne
         }else {
             linearLayout.getBackground().setAlpha(100);
         }
-
-
     }
 
-    public ImageBannerFragemntLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initImageBannerViewGroup();
-        initDotLinnerLayout();
+    public void addBitmaps(List<Bitmap> list){
+        for (int i = 0; i < list.size(); i++) {
+            Bitmap bitmap = list.get(i);
+            addBitmapToViewGroup(bitmap);
+            addDotToLinerLayout();
+        }
     }
 
-    public ImageBannerFragemntLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initImageBannerViewGroup();
-        initDotLinnerLayout();
+    private void  addBitmapToViewGroup(Bitmap bitmap){
+
+        ImageView imageView = new ImageView(getContext());
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,400));
+        imageView.setImageBitmap(bitmap);
+        imageBannerViewGroup.addView(imageView);
     }
 
+    private void addDotToLinerLayout(){
+
+        ImageView imageView = new ImageView(getContext());
+        LinearLayout.LayoutParams linerLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        imageView.setLayoutParams(linerLayout);
+        linerLayout.setMargins(5,5,5,5);
+        imageView.setImageResource(R.drawable.dot_noraml);
+        linearLayout.addView(imageView);
+    }
 
     //图片即将轮播出现的底部选点位置
     @Override
